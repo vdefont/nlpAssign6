@@ -1,10 +1,12 @@
 import java.util.*;
 
+// A Hash Map that automatically handles cases where the key doesn't exist yet 
 public class Map1D {
 
   private Map<String, Double> map;
   private Double initVal;
 
+  // This constructor adds keys on "get" operations
   public Map1D (double initVal) {
     this.map = new HashMap<>();
     this.initVal = initVal;
@@ -19,11 +21,8 @@ public class Map1D {
 
   public double get (String k) {
     if (!map.containsKey(k)) {
-      if (initVal != null) {
-        map.put(k, initVal);
-        return initVal;
-      }
-      return 0;
+      if (initVal == null) return 0;
+      map.put(k, initVal);
     }
     return map.get(k);
   }
@@ -41,6 +40,7 @@ public class Map1D {
     map.put(k, newVal);
   }
 
+  // Ensures that all the values sum to 1
   public void normalize () {
     double sum = getSum();
     for (String k : map.keySet()) {

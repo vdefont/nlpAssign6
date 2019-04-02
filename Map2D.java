@@ -1,14 +1,17 @@
 import java.util.*;
 
+// 2D HashMap that automatically handles cases where keys don't exist yet 
 public class Map2D {
 
   Map<String,Map1D> map;
   Double initVal;
 
+  // This constructor adds keys on "get" operations
   public Map2D (double initVal) {
     this.map = new HashMap<>();
     this.initVal = initVal;
   }
+
   public Map2D () {
     this.map = new HashMap<>();
   }
@@ -19,13 +22,11 @@ public class Map2D {
   }
 
   public double get (String a, String b) {
-    if (initVal != null) {
-      if (!map.containsKey(a)) map.put(a, new Map1D(initVal));
-      return map.get(a).get(b);
+    if (!map.containsKey(a)) {
+      if (initVal == null) return 0;
+      map.put(a, new Map1D(initVal));
     }
-
-    if (map.containsKey(a)) return map.get(a).get(b);
-    return 0;
+    return map.get(a).get(b);
   }
 
   public void put (String a, String b, double v) {

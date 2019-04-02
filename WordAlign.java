@@ -6,6 +6,7 @@ public class WordAlign {
   // - Read from file
   // - Print out desired output
 
+  // Reads from files, runs E-M iterations, prints output
   public WordAlign (String enSentenceFile, String frSentenceFile, int iterations, double probThresh) {
     Sentence s1 = new Sentence(new String[] {"a","b"},new String[] {"x","y"});
     Sentence s2 = new Sentence(new String[]{"a","d"},new String[] {"x","z"});
@@ -27,6 +28,7 @@ public class WordAlign {
     }
   }
 
+  // Given sentences and probabilities, executes an E-M iteration
   private void runIteration (Sentence[] sentences, Map2D probs) {
     // Build sum of partial counts
     Map2D partCountsPair = new Map2D();
