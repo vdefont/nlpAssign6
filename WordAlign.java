@@ -1,16 +1,15 @@
 import java.util.*;
+import java.io.*;
+
+// TODO make more efficient so it runs on full example
 
 public class WordAlign {
 
-  // TODO:
-  // - Read from file
-  // - Print out desired output
+  private static final String NULL_STRING = "NULLnullNULL";
 
   // Reads from files, runs E-M iterations, prints output
   public WordAlign (String enSentenceFile, String frSentenceFile, int iterations, double probThresh) {
-    Sentence s1 = new Sentence(new String[] {"a","b"},new String[] {"x","y"});
-    Sentence s2 = new Sentence(new String[]{"a","d"},new String[] {"x","z"});
-    Sentence[] sentences = new Sentence[] {s1, s2};
+    List<Sentence> sentences = getSentences(enSentenceFile, frSentenceFile);
 
     // Initialize probabilities
     double initProb = 0.01;
@@ -21,15 +20,53 @@ public class WordAlign {
     }
 
     for (String e : probs.keySet()) {
-      System.out.println("\n" + e);
       for (String f : probs.get(e).keySet()) {
-        System.out.println(" " + f + ": " + probs.get(e).get(f));
+        double prob = probs.get(e).get(f);
+        if (prob >= probThresh) {
+          // Replace null string
+          String eOut = e.equals(NULL_STRING) ? "NULL" : e;
+          System.out.println(eOut + "\t\t" + f + "\t\t" + prob);
+        }
       }
     }
   }
 
+  // Reads files and returns a list of sentences (pairs of word lists)
+  private List<Sentence> getSentences (String enSentenceFile, String frSentenceFile) {
+
+    List<Sentence> sentences = new ArrayList<>();
+
+    try {
+
+      BufferedReader enFile = new BufferedReader(new FileReader(enSentenceFile));
+      BufferedReader frFile = new BufferedReader(new FileReader(frSentenceFile));
+
+      String enLine = enFile.readLine();
+      String frLine = frFile.readLine();
+      while (enLine != null) {
+
+        // Add in NULL word
+        enLine = NULL_STRING + " " + enLine;
+
+        String[] enWords = enLine.split(" ");
+        String[] frWords = frLine.split(" ");
+        Sentence s = new Sentence(enWords, frWords);
+        sentences.add(s);
+
+        enLine = enFile.readLine();
+        frLine = frFile.readLine();
+      }
+
+    } catch (IOException e) {
+      System.out.println("Error reading file: " + e);
+    }
+
+    return sentences;
+
+  }
+
   // Given sentences and probabilities, executes an E-M iteration
-  private void runIteration (Sentence[] sentences, Map2D probs) {
+  private void runIteration (List<Sentence> sentences, Map2D probs) {
     // Build sum of partial counts
     Map2D partCountsPair = new Map2D();
     Map1D partCountsSing = new Map1D();
