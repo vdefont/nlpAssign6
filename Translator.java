@@ -10,12 +10,12 @@ public class Translator {
 
     LMModel lm = new DiscountLMModel("data/lm/all", BEST_DISCOUNT);
 
-    String inputFile = "data/probsTest.csv";
+    String inputFile = "data/probs.csv";
     String outFile = "data/likelyWords.csv";
     int maxCandidates = 3;
-    // makeLikelyWordsFile(inputFile, outFile, maxCandidates);
+    makeLikelyWordsFile(inputFile, outFile, maxCandidates);
 
-    Map<String,Map<String,Double>> likelyWords = readLikelyWordsFile(outFile);
+    //Map<String,Map<String,Double>> likelyWords = readLikelyWordsFile(outFile);
 
     // TODO
     // - Rerun WordAlign and use ^ as a separator (this is found nowhere)

@@ -30,7 +30,7 @@ public class WordAlign {
             // Replace null string
             String eOut = e.equals(NULL_STRING) ? "NULL" : e;
             System.out.println(eOut + "\t\t" + f + "\t\t" + prob);
-            writer.write(String.join(",", eOut, f, "" + prob) + "\n");
+            writer.write(String.join("^", eOut, f, "" + prob) + "\n");
           }
         }
       }
