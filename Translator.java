@@ -92,7 +92,7 @@ public class Translator {
       BufferedReader file = new BufferedReader(new FileReader(inputFile));
       String line = file.readLine();
       while (line != null) {
-        String[] words = line.split(",");
+        String[] words = line.split("\\^");
         String en = words[0];
         String fr = words[1];
         double prob = Double.valueOf(words[2]);
