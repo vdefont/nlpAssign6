@@ -16,18 +16,27 @@ public class WordAlign {
     Map2D probs = new Map2D(initProb);
 
     for (int i = 0; i < iterations; i += 1) {
+      System.out.println("Iteration: " + i);
       runIteration(sentences, probs);
     }
 
-    for (String e : probs.keySet()) {
-      for (String f : probs.get(e).keySet()) {
-        double prob = probs.get(e).get(f);
-        if (prob >= probThresh) {
-          // Replace null string
-          String eOut = e.equals(NULL_STRING) ? "NULL" : e;
-          System.out.println(eOut + "\t\t" + f + "\t\t" + prob);
+    // Print outputs
+    try {
+      BufferedWriter writer = new BufferedWriter(new FileWriter("data/probs.csv"));
+      for (String e : probs.keySet()) {
+        for (String f : probs.get(e).keySet()) {
+          double prob = probs.get(e).get(f);
+          if (prob >= probThresh) {
+            // Replace null string
+            String eOut = e.equals(NULL_STRING) ? "NULL" : e;
+            System.out.println(eOut + "\t\t" + f + "\t\t" + prob);
+            writer.write(String.join(",", eOut, f, "" + prob) + "\n");
+          }
         }
       }
+      writer.close();
+    } catch (IOException e) {
+      System.out.println("Error writing to file");
     }
   }
 
@@ -101,6 +110,7 @@ public class WordAlign {
   }
 
   public static void main (String[] args) {
+
     String enSentenceFile = args[0];
     String frSentenceFile = args[1];
     int iterations = Integer.valueOf(args[2]);
