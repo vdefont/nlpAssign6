@@ -1,0 +1,9 @@
+A bunch of these files are the start of my work on part B.
+The only java files necessary for this assignment are:
+- WordAlign.java
+- Sentence.Java
+
+Inside the writeup folder, three files correspond to the three sections:
+1. testOutput
+2. 10k
+3. analysis.pdf

@@ -1,0 +1,20 @@
+the		fleur		0.0021488076607333517
+the		bleu		0.0019614640931636743
+the		la		0.8382114241678646
+the		maison		0.15767830407823832
+blue		bleu		0.962031904396845
+blue		la		0.003378098037357599
+blue		maison		0.034589997565797385
+house		bleu		0.011480727939862458
+house		la		0.06560576196811131
+house		maison		0.9229135100920263
+NULL		fleur		0.0021488076607333517
+NULL		bleu		0.0019614640931636743
+NULL		la		0.8382114241678646
+NULL		maison		0.15767830407823832
+flower		fleur		0.9892446073998701
+flower		la		0.010755392600129955
+
+These outputs make sense, as words that co-occur more often tend to have the highest probability.
+For example, "blue" and "bleu" co-occur, and each only occurs once over all sentences.
+It thus makse sense that p(bleu | blue) is very high - in this case 0.96.

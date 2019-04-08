@@ -1,8 +1,6 @@
 import java.util.*;
 import java.io.*;
 
-// TODO make more efficient so it runs on full example
-
 public class WordAlign {
 
   private static final String NULL_STRING = "NULLnullNULL";
@@ -16,7 +14,6 @@ public class WordAlign {
     Map2D probs = new Map2D(initProb);
 
     for (int i = 0; i < iterations; i += 1) {
-      System.out.println("Iteration: " + i);
       runIteration(sentences, probs);
     }
 

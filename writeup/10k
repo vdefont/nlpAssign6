@@ -1,0 +1,27 @@
+third		terceros		0.30798803490932763
+field		ámbito		0.3822035027199382
+- Incorrect - ambito means scope, extent, or bound of something (ex: a law)
+seventh		séptimo		0.34982990218176785
+thyssen		thyssen		0.435624394816428
+practices		prácticas		0.429621714548694
+integrate		integrar		0.3252527809986522
+regulation		reglamento		0.7265138937436056
+hypocrisy		hipocresía		0.5214895127377156
+coasts		costas		0.39095134671586473
+minutes		acta		0.40627238981689134
+lousewies		gustaría		0.32000265775359144
+- Incorrect: gustaría means like, love, appeal to
+commissioner		comisario		0.5172799451688297
+term		plazo		0.4548092028231775
+uniform		uniforme		0.42740083668707257
+speech		intervención		0.4085442526026002
+- Incorrect
+margins		márgenes		0.3487806372684839
+widen		ampliar		0.33010317639168696
+dependence		dependencia		0.441764205377019
+event		caso		0.687410628022784
+- Somewhat correct: caso means case, instance, occurrence
+agency		organismo		0.310797791549102
+
+All translations are correct except for the four that are marked above.
+The translation model did quite well, seeing as 80% of our sample was correct.
