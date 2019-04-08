@@ -6,21 +6,73 @@ public class Translator {
   // Chosen by tuneParameters method
   private static final double BEST_DISCOUNT = 0.5;
 
+  private static final int BEAM_SIZE = 10;
+
   public Translator () {
 
     LMModel lm = new DiscountLMModel("data/lm/all", BEST_DISCOUNT);
 
-    String inputFile = "data/probs.csv";
-    String outFile = "data/likelyWords.csv";
-    int maxCandidates = 3;
+    String inputFile = "data/all/probs.csv";
+    String outFile = "data/all/likelyWords.csv";
+    int maxCandidates = 10;
     makeLikelyWordsFile(inputFile, outFile, maxCandidates);
 
-    //Map<String,Map<String,Double>> likelyWords = readLikelyWordsFile(outFile);
+    Map<String,Map<String,Double>> likelyWords = readLikelyWordsFile(outFile);
 
-    // TODO
-    // - Rerun WordAlign and use ^ as a separator (this is found nowhere)
-    // - Rerun makeLikelyWordsFile
-    // - Run logic where you build up sentences word-by-word
+    // Problem: no translation for jugaba
+    // String frSent = "niño jugaba en camino";
+    String frSent = "la casa verde es grande";
+    String enSent = translateSentence(frSent, likelyWords, lm);
+    System.out.println(enSent);
+
+  }
+
+  private String translateSentence (String frSent, Map<String,Map<String,Double>> likelyWords, LMModel lm) {
+    String[] frWords = frSent.split(" ");
+
+    List<PartialSentence> partSents = new ArrayList<>();
+    partSents.add(new PartialSentence());
+
+    for (int i = 0; i < frWords.length; i += 1) {
+      String f = frWords[i];
+      System.out.println("curF: " + f);
+
+      PriorityQueue<PartialSentence> pq = new PriorityQueue<>();
+
+      for (PartialSentence partSent : partSents) {
+        System.out.println(" " + String.join(" ", partSent.getWords()) + " -- " + partSent.getLogProb());
+        for (String e : likelyWords.get(f).keySet()) {
+
+          // Calculate probability
+          double eProb = likelyWords.get(f).get(e);
+          System.out.print("  " + e + " (" + eProb + ")  ");
+          if (partSent.length() > 0) {
+            double bigramProb = lm.getBigramProb(partSent.getLastWord(), e);
+            System.out.print(bigramProb);
+            eProb *= bigramProb;
+          }
+          System.out.println("");
+
+          // Make new sentence
+          PartialSentence newSent = new PartialSentence(partSent, e, eProb);
+
+          // Add to queue
+          pq.add(newSent);
+
+        }
+      }
+
+      // Transfer queue to list
+      partSents.clear();
+      for (int j = 0; j < BEAM_SIZE && pq.size() > 0; j += 1) {
+        partSents.add(pq.poll());
+      }
+
+    }
+
+    List<String> bestSentWords = partSents.get(0).getWords();
+    for (PartialSentence ps : partSents) System.out.println(ps.getLogProb());
+    return String.join(" ", bestSentWords);
 
   }
 
